@@ -1,24 +1,24 @@
-package com.github.epickiller6002.mysticwoods.input
+package com.github.epickiller6002.CAS_Project.input
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys.*
 import com.github.epickiller6002.mysticwoods.component.AttackComponent
-import com.github.epickiller6002.mysticwoods.component.MoveComponent
-import com.github.epickiller6002.mysticwoods.component.PlayerComponent
+import com.github.epickiller6002.mysticwoods.component.MoveData
+import com.github.epickiller6002.mysticwoods.component.PlayerData
 import com.github.quillraven.fleks.ComponentMapper
 import com.github.quillraven.fleks.World
 import ktx.app.KtxInputAdapter
 
-class PlayerKeyboardInputProcessor(
+class KeyboardInput(
     world: World,
-    private val moveCmps: ComponentMapper<MoveComponent> = world.mapper(),
+    private val moveCmps: ComponentMapper<MoveData> = world.mapper(),
     private val attackCmps: ComponentMapper<AttackComponent> = world.mapper(),
 
-): KtxInputAdapter {
+    ): KtxInputAdapter {
 
     private var playerSin = 0f
     private var playerCos = 0f
-    private val playerEntities = world.family(allOf = arrayOf(PlayerComponent::class))
+    private val playerEntities = world.family(allOf = arrayOf(PlayerData::class))
 
     init {
 //      use a multiplexer in the future to store multiple inputProcessors to allow android phone movement
@@ -52,7 +52,6 @@ class PlayerKeyboardInputProcessor(
             playerEntities.forEach {
                 with(attackCmps[it]) {
                     doAttack = true
-                    startAttack()
                 }
             }
             return true

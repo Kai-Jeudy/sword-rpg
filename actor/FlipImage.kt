@@ -1,4 +1,4 @@
-package com.github.epickiller6002.mysticwoods.actor
+package com.github.epickiller6002.CAS_Project.actor
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Image

@@ -10,10 +10,11 @@ data class AiEntity(
     private val entity: Entity,
     private val world: World,
     private val animationCmps: ComponentMapper<AnimationComponent> = world.mapper(),
-    private val moveCmps: ComponentMapper<MoveComponent> = world.mapper(),
+    private val moveCmps: ComponentMapper<MoveData> = world.mapper(),
     private val attackCmps: ComponentMapper<AttackComponent> = world.mapper(),
-    private val stateCmps: ComponentMapper<StateComponent> = world.mapper(),
-) {
+    private val stateCmps: ComponentMapper<StateData> = world.mapper(),
+    private val lifeCmps: ComponentMapper<LifeData> = world.mapper(),
+    ) {
     val wantsToRun: Boolean
         get() {
             val moveCmp = moveCmps[entity]
@@ -22,6 +23,15 @@ data class AiEntity(
 
     val wantsToAttack: Boolean
         get() = attackCmps.getOrNull(entity)?.doAttack?: false
+
+    val isAnimationDone: Boolean
+        get() = animationCmps[entity].isAnimationDone
+
+    val attackCmp: AttackComponent
+        get() = attackCmps[entity]
+
+    val isDead: Boolean
+        get() = lifeCmps[entity].isDead
 
     fun animation(type: AnimationType, mode: PlayMode = PlayMode.LOOP, resetAnimation: Boolean = false) {
         with(animationCmps[entity]) {
@@ -33,8 +43,27 @@ data class AiEntity(
         }
     }
 
-    fun state(next: EntityState) {
-        with(stateCmps[entity]) { nextState = next }
+    fun state(next: EntityState, immediateChange: Boolean = false) {
+        with(stateCmps[entity]) {
+            nextState = next
+            if (immediateChange) {
+                stateMachine.changeState(nextState)
+            }
+        }
+    }
+
+    fun enableGlobalState(enable: Boolean) {
+        with(stateCmps[entity]) {
+            if(enable) {
+                stateMachine.globalState = DefaultGlobalState.CHECK_ALIVE
+            } else {
+                stateMachine.globalState = null
+            }
+        }
+    }
+
+    fun changeToPreviousState() {
+        with(stateCmps[entity]) { nextState = stateMachine.previousState }
     }
 
     fun root(enable: Boolean) {

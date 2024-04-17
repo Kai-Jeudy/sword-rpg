@@ -7,10 +7,10 @@ import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.utils.Scaling
-import com.github.epickiller6002.mysticwoods.MysticWoods.Companion.UNIT_SCALE
-import com.github.epickiller6002.mysticwoods.actor.FlipImage
+import com.github.epickiller6002.CAS_Project.CAS_Project.Companion.UNIT_SCALE
+import com.github.epickiller6002.CAS_Project.actor.FlipImage
 import com.github.epickiller6002.mysticwoods.component.*
-import com.github.epickiller6002.mysticwoods.component.PhysicComponent.Companion.physicsCmpFromImage
+import com.github.epickiller6002.mysticwoods.component.PhysicData.Companion.physicsCmpFromImage
 import com.github.epickiller6002.mysticwoods.event.MapChangeEvent
 import com.github.quillraven.fleks.AllOf
 import com.github.quillraven.fleks.ComponentMapper
@@ -26,7 +26,7 @@ import ktx.tiled.y
 import kotlin.math.roundToInt
 
 @AllOf([SpawnComponent::class])
-class EntitySpawnSystem(
+class EntitySpawnLogic(
     private val phWorld: World,
     private val atlas: TextureAtlas,
     private val spawnCmps:ComponentMapper<SpawnComponent>,
@@ -40,7 +40,7 @@ class EntitySpawnSystem(
             val relativeSize = size(cfg.model)
 
             world.entity {
-                val imageCmp = add<ImageComponent>{
+                val imageCmp = add<ImageData>{
                     image = FlipImage().apply {
                         setPosition(location.x, location.y)
                         setSize(relativeSize.x, relativeSize.y)
@@ -73,7 +73,7 @@ class EntitySpawnSystem(
                 }
 
                 if(cfg.speedScaling > 0f) {
-                    add<MoveComponent> {
+                    add<MoveData> {
                         speed = DEFAULT_SPEED * cfg.speedScaling
                     }
                 }
@@ -87,24 +87,24 @@ class EntitySpawnSystem(
                 }
 
                 if(cfg.lifeScaling > 0f) {
-                    add<LifeComponent> {
+                    add<LifeData> {
                         max = DEFAULT_LIFE * cfg.lifeScaling
                         life = max
                     }
                 }
 
                 if(type == "Player") {
-                    add<PlayerComponent>()
-                    add<StateComponent>()
+                    add<PlayerData>()
+                    add<StateData>()
                 }
 
                 if(cfg.lootable) {
-                    add<LootComponent>()
+                    add<LootData>()
                 }
 
                 if(cfg.bodyType != StaticBody) {
                     // such entities will create/remove collision objects
-                    add<CollisionComponent>()
+                    add<CollisionData>()
                 }
             }
         }

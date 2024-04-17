@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.github.epickiller6002.mysticwoods.system.AttackSystem.Companion.AABB_RECT
+import com.github.epickiller6002.mysticwoods.system.AttackLogic.Companion.AABB_RECT
 import com.github.quillraven.fleks.IntervalSystem
 import ktx.assets.disposeSafely
 import ktx.graphics.use
 
-class DebugSystem(
+class DebugLogic(
     private val phWorld: World,
     private val stage: Stage
 ) :IntervalSystem(enabled = false) {

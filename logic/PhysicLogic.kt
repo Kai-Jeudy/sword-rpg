@@ -5,10 +5,10 @@ import com.badlogic.gdx.physics.box2d.*
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.DynamicBody
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody
 import com.badlogic.gdx.physics.box2d.World
-import com.github.epickiller6002.mysticwoods.component.CollisionComponent
-import com.github.epickiller6002.mysticwoods.component.ImageComponent
-import com.github.epickiller6002.mysticwoods.component.PhysicComponent
-import com.github.epickiller6002.mysticwoods.component.TiledComponent
+import com.github.epickiller6002.mysticwoods.component.CollisionData
+import com.github.epickiller6002.mysticwoods.component.ImageData
+import com.github.epickiller6002.mysticwoods.component.PhysicData
+import com.github.epickiller6002.mysticwoods.component.TiledData
 import com.github.quillraven.fleks.*
 import ktx.log.logger
 import ktx.math.component1
@@ -18,13 +18,13 @@ import ktx.math.component2
 val Fixture.entity: Entity
     get() = this.body.userData as Entity
 
-@AllOf([PhysicComponent::class, ImageComponent::class])
+@AllOf([PhysicData::class, ImageData::class])
 class PhysicSystem(
     private val phWorld: World,
-    private val imageCmps: ComponentMapper<ImageComponent>,
-    private val physicCmps: ComponentMapper<PhysicComponent>,
-    private val tiledCmps: ComponentMapper<TiledComponent>,
-    private val collisionCmps: ComponentMapper<CollisionComponent>,
+    private val imageCmps: ComponentMapper<ImageData>,
+    private val physicCmps: ComponentMapper<PhysicData>,
+    private val tiledCmps: ComponentMapper<TiledData>,
+    private val collisionCmps: ComponentMapper<CollisionData>,
 ) : ContactListener, IteratingSystem(interval = Fixed(1 / 60f)) {
 
     init {

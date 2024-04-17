@@ -6,13 +6,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import com.github.epickiller6002.mysticwoods.component.FloatingTextComponent.Companion.FloatingTextComponentListener
-import com.github.epickiller6002.mysticwoods.component.ImageComponent.Companion.ImageComponentListener
-import com.github.epickiller6002.mysticwoods.component.PhysicComponent.Companion.PhysicComponentListener
-import com.github.epickiller6002.mysticwoods.component.StateComponent.Companion.StateComponentListener
+import com.github.epickiller6002.CAS_Project.input.KeyboardInput
+import com.github.epickiller6002.mysticwoods.component.FloatingTextData.Companion.FloatingTextComponentListener
+import com.github.epickiller6002.mysticwoods.component.ImageData.Companion.ImageComponentListener
+import com.github.epickiller6002.mysticwoods.component.PhysicData.Companion.PhysicComponentListener
+import com.github.epickiller6002.mysticwoods.component.StateData.Companion.StateComponentListener
 import com.github.epickiller6002.mysticwoods.event.MapChangeEvent
 import com.github.epickiller6002.mysticwoods.event.fire
-import com.github.epickiller6002.mysticwoods.input.PlayerKeyboardInputProcessor
 import com.github.epickiller6002.mysticwoods.system.*
 import com.github.quillraven.fleks.World
 import ktx.app.KtxScreen
@@ -41,21 +41,21 @@ class GameScreen : KtxScreen{
         componentListener<FloatingTextComponentListener>()
         componentListener<StateComponentListener>()
 
-        system<EntitySpawnSystem>()
-        system<CollisionSpawnSystem>()
-        system<CollisionDespawnSystem>()
-        system<MoveSystem>()
-        system<AttackSystem>()
-        system<LootSystem>()
-        system<DeadSystem>()
-        system<LifeSystem>()
+        system<EntitySpawnLogic>()
+        system<CollisionSpawnLogic>()
+        system<CollisionDespawnLogic>()
+        system<MoveLogic>()
+        system<AttackLogic>()
+        system<LootLogic>()
+        system<DeadLogic>()
+        system<LifeLogic>()
         system<PhysicSystem>()
-        system<AnimationSystem>()
-        system<StateSystem>()
-        system<CameraSystem>()
-        system<FloatingTextSystem>()
-        system<RenderSystem>()
-        system<DebugSystem>()
+        system<AnimationLogic>()
+        system<StateLogic>()
+        system<CameraLogic>()
+        system<FloatingTextLogic>()
+        system<RenderLogic>()
+        system<DebugLogic>()
     }
 
     override fun show() {
@@ -70,7 +70,7 @@ class GameScreen : KtxScreen{
         currentMap = TmxMapLoader().load("map/map1.tmx")
         gameStage.fire(MapChangeEvent(currentMap!!))
 
-        PlayerKeyboardInputProcessor(eWorld)
+        KeyboardInput(eWorld)
     }
 
     override fun resize(width: Int, height: Int) {

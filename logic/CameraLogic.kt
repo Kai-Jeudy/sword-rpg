@@ -3,8 +3,8 @@ package com.github.epickiller6002.mysticwoods.system
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.github.epickiller6002.mysticwoods.component.ImageComponent
-import com.github.epickiller6002.mysticwoods.component.PlayerComponent
+import com.github.epickiller6002.mysticwoods.component.ImageData
+import com.github.epickiller6002.mysticwoods.component.PlayerData
 import com.github.epickiller6002.mysticwoods.event.MapChangeEvent
 import com.github.quillraven.fleks.AllOf
 import com.github.quillraven.fleks.ComponentMapper
@@ -13,9 +13,9 @@ import com.github.quillraven.fleks.IteratingSystem
 import ktx.tiled.height
 import ktx.tiled.width
 
-@AllOf([PlayerComponent::class, ImageComponent::class])
-class CameraSystem(
-    private val imageCmps: ComponentMapper<ImageComponent>,
+@AllOf([PlayerData::class, ImageData::class])
+class CameraLogic(
+    private val imageCmps: ComponentMapper<ImageData>,
     stage: Stage
 ): EventListener, IteratingSystem(){
 

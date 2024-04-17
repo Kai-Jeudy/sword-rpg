@@ -1,8 +1,8 @@
 package com.github.epickiller6002.mysticwoods.system
 
-import com.github.epickiller6002.mysticwoods.component.ImageComponent
-import com.github.epickiller6002.mysticwoods.component.MoveComponent
-import com.github.epickiller6002.mysticwoods.component.PhysicComponent
+import com.github.epickiller6002.mysticwoods.component.ImageData
+import com.github.epickiller6002.mysticwoods.component.MoveData
+import com.github.epickiller6002.mysticwoods.component.PhysicData
 import com.github.quillraven.fleks.AllOf
 import com.github.quillraven.fleks.ComponentMapper
 import com.github.quillraven.fleks.Entity
@@ -10,11 +10,11 @@ import com.github.quillraven.fleks.IteratingSystem
 import ktx.math.component1
 import ktx.math.component2
 
-@AllOf([MoveComponent::class, PhysicComponent::class])
-class MoveSystem(
-    private val moveCmps: ComponentMapper<MoveComponent>,
-    private val physicCmps: ComponentMapper<PhysicComponent>,
-    private val imageCmps: ComponentMapper<ImageComponent>,
+@AllOf([MoveData::class, PhysicData::class])
+class MoveLogic(
+    private val moveCmps: ComponentMapper<MoveData>,
+    private val physicCmps: ComponentMapper<PhysicData>,
+    private val imageCmps: ComponentMapper<ImageData>,
 ): IteratingSystem() {
 
     override fun onTickEntity(entity: Entity) {
@@ -23,8 +23,8 @@ class MoveSystem(
         val mass = physicCmp.body.mass
         val (velX, velY) = physicCmp.body.linearVelocity
 
-        if(moveCmp.cos == 0f && moveCmp.sin == 0f ) {
-            // no direction specified -> stop entity immediately
+        if((moveCmp.cos == 0f && moveCmp.sin == 0f ) || moveCmp.root){
+            // no direction specified or rooted -> stop entity immediately
             physicCmp.impulse.set(
                 mass * (0f - velX),
                 mass * (0f - velY)

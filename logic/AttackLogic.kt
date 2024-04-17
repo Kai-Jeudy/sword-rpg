@@ -4,21 +4,22 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.physics.box2d.World
 import com.github.epickiller6002.mysticwoods.component.*
-import com.github.epickiller6002.mysticwoods.system.EntitySpawnSystem.Companion.HIT_BOX_SENSOR
+import com.github.epickiller6002.mysticwoods.system.EntitySpawnLogic.Companion.HIT_BOX_SENSOR
 import com.github.quillraven.fleks.*
 import ktx.box2d.query
 import ktx.math.component1
 import ktx.math.component2
 
-@AllOf([AttackComponent::class, PhysicComponent::class, ImageComponent::class])
-class AttackSystem(
+@AllOf([AttackComponent::class, PhysicData::class, ImageData::class])
+class AttackLogic(
     //good idea to split up the components
     private val attackCmps: ComponentMapper<AttackComponent>,
-    private val physicCmps: ComponentMapper<PhysicComponent>,
-    private val imgCmps: ComponentMapper<ImageComponent>,
-    private val lifeCmps: ComponentMapper<LifeComponent>,
-    private val playerCmps: ComponentMapper<PlayerComponent>,
-    private val lootCmps: ComponentMapper<LootComponent>,
+    private val physicCmps: ComponentMapper<PhysicData>,
+    private val imgCmps: ComponentMapper<ImageData>,
+    private val lifeCmps: ComponentMapper<LifeData>,
+    private val playerCmps: ComponentMapper<PlayerData>,
+    private val lootCmps: ComponentMapper<LootData>,
+    private val animationCmps: ComponentMapper<AnimationComponent>,
     private val phWorld: World,
 ): IteratingSystem() {
 
@@ -95,8 +96,12 @@ class AttackSystem(
                 return@query true
             }
 
-            attackCmp.state = AttackState.READY
-        }
+            }
+
+            val isDone = animationCmps.getOrNull(entity)?.isAnimationDone ?: true
+            if(isDone) {
+                attackCmp.state = AttackState.READY
+            }
 
         }
 

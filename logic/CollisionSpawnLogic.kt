@@ -6,10 +6,10 @@ import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
-import com.github.epickiller6002.mysticwoods.component.CollisionComponent
-import com.github.epickiller6002.mysticwoods.component.PhysicComponent
-import com.github.epickiller6002.mysticwoods.component.PhysicComponent.Companion.physicsCmpFromShape2D
-import com.github.epickiller6002.mysticwoods.component.TiledComponent
+import com.github.epickiller6002.mysticwoods.component.CollisionData
+import com.github.epickiller6002.mysticwoods.component.PhysicData
+import com.github.epickiller6002.mysticwoods.component.PhysicData.Companion.physicsCmpFromShape2D
+import com.github.epickiller6002.mysticwoods.component.TiledData
 import com.github.epickiller6002.mysticwoods.event.CollisionDespawnEvent
 import com.github.epickiller6002.mysticwoods.event.MapChangeEvent
 import com.github.quillraven.fleks.AllOf
@@ -25,10 +25,10 @@ import ktx.math.vec2
 import ktx.tiled.*
 import java.util.*
 
-@AllOf([PhysicComponent::class, CollisionComponent::class])
-class CollisionSpawnSystem(
+@AllOf([PhysicData::class, CollisionData::class])
+class CollisionSpawnLogic(
     private val phWorld: World,
-    private val physicCmps: ComponentMapper<PhysicComponent>
+    private val physicCmps: ComponentMapper<PhysicData>
 ): EventListener, IteratingSystem(){
 
     private val tiledLayers = GdxArray<TiledMapTileLayer>()
@@ -64,7 +64,7 @@ class CollisionSpawnSystem(
                 cell.tile.objects.forEach{mapObject ->
                     world.entity {
                         physicsCmpFromShape2D(phWorld, x, y, mapObject.shape)
-                        add<TiledComponent> {
+                        add<TiledData> {
                             this.cell = cell
                             nearbyEntities.add(entity)
                         }
@@ -84,7 +84,7 @@ class CollisionSpawnSystem(
                     val w = event.map.width.toFloat()
                     val h = event.map.height.toFloat()
 
-                    add<PhysicComponent> {
+                    add<PhysicData> {
                         body = phWorld.body(BodyDef.BodyType.StaticBody) {
                             position.set(0f, 0f)
                             fixedRotation = true

@@ -6,8 +6,8 @@ import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import com.github.epickiller6002.mysticwoods.MysticWoods.Companion.UNIT_SCALE
-import com.github.epickiller6002.mysticwoods.system.CollisionSpawnSystem.Companion.SPAWN_AREA_SIZE
+import com.github.epickiller6002.CAS_Project.CAS_Project.Companion.UNIT_SCALE
+import com.github.epickiller6002.mysticwoods.system.CollisionSpawnLogic.Companion.SPAWN_AREA_SIZE
 import com.github.quillraven.fleks.ComponentListener
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.EntityCreateCfg
@@ -18,7 +18,7 @@ import ktx.box2d.circle
 import ktx.box2d.loop
 import ktx.math.vec2
 
-class PhysicComponent {
+class PhysicData {
 
     val prevPos = vec2()
     val impulse = vec2()
@@ -32,7 +32,7 @@ class PhysicComponent {
             x: Int,
             y: Int,
             shape: Shape2D
-        ) :PhysicComponent {
+        ) :PhysicData {
             when(shape) {
                 is Rectangle -> {
                     val bodyX = x + shape.x * UNIT_SCALE
@@ -63,8 +63,8 @@ class PhysicComponent {
             world: World,
             image: Image,
             bodyType: BodyType,
-            fixtureAction:BodyDefinition.(PhysicComponent, Float, Float) -> Unit
-        ) :PhysicComponent {
+            fixtureAction:BodyDefinition.(PhysicData, Float, Float) -> Unit
+        ) :PhysicData {
             val x = image.x
             val y = image.y
             val w = image.width
@@ -80,12 +80,12 @@ class PhysicComponent {
             }
         }
 
-        class PhysicComponentListener : ComponentListener<PhysicComponent> {
-            override fun onComponentAdded(entity: Entity, component: PhysicComponent) {
+        class PhysicComponentListener : ComponentListener<PhysicData> {
+            override fun onComponentAdded(entity: Entity, component: PhysicData) {
                 component.body.userData = entity
             }
 
-            override fun onComponentRemoved(entity: Entity, component: PhysicComponent) {
+            override fun onComponentRemoved(entity: Entity, component: PhysicData) {
                 val body = component.body
                 component.body.world.destroyBody(component.body)
                 body.userData = null

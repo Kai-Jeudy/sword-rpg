@@ -3,15 +3,15 @@ package com.github.epickiller6002.mysticwoods.system
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.github.epickiller6002.mysticwoods.component.FloatingTextComponent
+import com.github.epickiller6002.mysticwoods.component.FloatingTextData
 import com.github.quillraven.fleks.*
 import ktx.math.vec2
 
-@AllOf([FloatingTextComponent::class])
-class FloatingTextSystem(
+@AllOf([FloatingTextData::class])
+class FloatingTextLogic(
     private val gameStage: Stage,
     @Qualifier("uiStage") private val uiStage: Stage,
-    private val textCmps: ComponentMapper<FloatingTextComponent>,
+    private val textCmps: ComponentMapper<FloatingTextData>,
     ): IteratingSystem() {
     private val uiLocation = vec2()
     private val uiTarget = vec2()

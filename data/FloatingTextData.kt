@@ -11,7 +11,7 @@ import com.github.quillraven.fleks.Qualifier
 import ktx.actors.plusAssign
 import ktx.math.vec2
 
-class FloatingTextComponent {
+class FloatingTextData {
     val txtLocation = vec2()
     var txtTarget = vec2()
     var lifeSpan = 0f
@@ -21,8 +21,8 @@ class FloatingTextComponent {
     companion object {
         class FloatingTextComponentListener(
             @Qualifier("uiStage") private val uiStage: Stage,
-        ): ComponentListener<FloatingTextComponent> {
-            override fun onComponentAdded(entity: Entity, component: FloatingTextComponent) {
+        ): ComponentListener<FloatingTextData> {
+            override fun onComponentAdded(entity: Entity, component: FloatingTextData) {
                 uiStage.addActor(component.label)
                 component.label += fadeOut(component.lifeSpan, Interpolation.pow3OutInverse)
                 component.txtTarget.set(
@@ -31,7 +31,7 @@ class FloatingTextComponent {
                 )
             }
 
-            override fun onComponentRemoved(entity: Entity, component: FloatingTextComponent) {
+            override fun onComponentRemoved(entity: Entity, component: FloatingTextData) {
                 uiStage.root.removeActor(component.label)
             }
 
